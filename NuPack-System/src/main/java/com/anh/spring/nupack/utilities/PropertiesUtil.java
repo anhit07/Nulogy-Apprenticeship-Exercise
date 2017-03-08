@@ -1,35 +1,21 @@
 package com.anh.spring.nupack.utilities;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.env.Environment;
 
-public final class PropertiesUtil {
+public class PropertiesUtil {
 
-	final static String propFileName = "services.properties";
+	private Environment environment;
 
-	public String loadProperties(String propertyKey) throws IOException {
-		Properties prop = new Properties();
-		InputStream inputStream = this.getClass().getClassLoader()
-				.getResourceAsStream(propFileName);
-		try {
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				throw new FileNotFoundException("property file '"
-						+ propFileName + "' not found in the classpath");
-			}
-
-			// get the property value and print it out
-			return prop.getProperty(propertyKey);
-
-		} catch (Exception e) {
-			System.out.println("Exception: " + e);
-			return null;
-		} finally {
-			inputStream.close();
-		}
+	@SuppressWarnings("resource")
+	public PropertiesUtil() {
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+				PropertiesBean.class);
+		context.registerShutdownHook();
+		this.environment = context.getBean(Environment.class);
 	}
-
+	
+	public String getPropertyValue(String propertyName){
+		return environment.getProperty(propertyName);
+	}
 }
