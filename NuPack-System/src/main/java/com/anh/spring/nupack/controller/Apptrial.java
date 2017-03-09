@@ -11,12 +11,13 @@ public class Apptrial {
 		Double basePrice = FormatUtil.toDouble(args[3]);*/
 		
 		String productName = "Pro";
-		String productMaterials = "pha";
+		String productMaterials = "pharMarkup";
 		Double basePrice = FormatUtil.toDouble("129999.3 ");
 
 		Product product = new Product(productName, productMaterials, basePrice);
 		PackingService packingService = new PackingService(product,3);
 		packingService.calculateProductFinalPrice();
+		System.out.println(packingService.toString());
 		System.out.println(packingService.getProduct().toString());
 	}
 }

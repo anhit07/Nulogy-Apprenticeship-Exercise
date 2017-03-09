@@ -1,98 +1,47 @@
 package com.anh.spring.nupack.controller;
 
+import java.util.HashMap;
+
+import com.anh.spring.nupack.utilities.ConstantUtil;
 import com.anh.spring.nupack.utilities.FormatUtil;
 import com.anh.spring.nupack.utilities.PropertiesUtil;
 
-public class Markups {
+public class Markups extends PropertiesUtil {
 
-	
-	private double flatMarkupPercentage;
-
-	private double materialMarkupPercentage;
-
-	private double laborMarkupPercentage;
+	/*
+	 * private double flatMarkupPercentage;
+	 * 
+	 * private double materialMarkupPercentage;//base on product input
+	 * 
+	 * private double laborMarkupPercentage;
+	 */
+	private HashMap<String, String> markupPercentage;
+	private HashMap<String, String> markupMaterialType;
 
 	public Markups() {
+		super(ConstantUtil.markupPropertiesFileName);
+		this.markupPercentage = super.getProperties(ConstantUtil.markupPercentageStartString);
+		this.markupMaterialType = super.getProperties(ConstantUtil.markupMaterialTypeStartString);
 	}
 
-	private PropertiesUtil proUtil;
-
-	public Markups(String productMaterial) {
-		proUtil = new PropertiesUtil();
-		setFlatMarkupPercentage();
-		setLaborMarkupPercentage();
-		setMaterialMarkupPercentage(productMaterial);
-		System.out.println(this.toString());
+	
+	public HashMap<String, String> getMarkupMaterialType() {
+		return markupMaterialType;
 	}
 
-	// Flat Markup
-	public double getFlatMarkupPercentage() {
-		return flatMarkupPercentage;
+
+	public Double getMarkupPercetage(String markupPercentageKey) {
+		return FormatUtil.toDouble(markupPercentage.get(markupPercentageKey));
 	}
 
-	public void setFlatMarkupPercentage() {
-		String percentageString = proUtil
-				.getPropertyValue("markup.percentage.flat");
 
-		if (!FormatUtil.isEmpty(percentageString) && FormatUtil.toDouble(percentageString) != null) {
-			this.flatMarkupPercentage = FormatUtil.toDouble(percentageString);
-		}
+	public String getMarkupMaterialType(String marterialType) {
+		return markupMaterialType.get(marterialType);
 	}
 
-	// Material Markup
-	public double getMaterialMarkupPercentage() {
-		return materialMarkupPercentage;
+
+	public static void main(String[] args) {
+		Markups markups = new Markups();
+		System.out.println(markups.getMarkupMaterialType("markup.type.electronics"));
 	}
-
-	public void setMaterialMarkupPercentage(String productMaterial) {
-		String percentageString = "";
-
-		switch (productMaterial) {
-
-		case "phar":
-			percentageString = proUtil
-					.getPropertyValue("markup.percentage.material.pharmaceutical");
-			break;
-
-		case "food":
-			percentageString = proUtil
-					.getPropertyValue("markup.percentage.material.food");
-			break;
-
-		case "ele":
-			percentageString = proUtil
-					.getPropertyValue("markup.percentage.material.electronics");
-			break;
-
-		default:
-			percentageString = proUtil
-					.getPropertyValue("markup.percentage.material.others");
-			break;
-		}
-		if (!FormatUtil.isEmpty(percentageString) && FormatUtil.toDouble(percentageString) != null) {
-			this.materialMarkupPercentage = FormatUtil
-					.toDouble(percentageString);
-		}
-	}
-
-	// Labor Markup
-	public double getLaborMarkupPercentage() {
-		return laborMarkupPercentage;
-	}
-
-	public void setLaborMarkupPercentage() {
-		String percentageString = proUtil
-				.getPropertyValue("markup.percentage.labor");
-		if (!FormatUtil.isEmpty(percentageString) && FormatUtil.toDouble(percentageString) != null) {
-			this.laborMarkupPercentage = FormatUtil.toDouble(percentageString);
-		}
-	}
-
-	@Override
-	public String toString() {
-		return "Markups [flatMarkupPercentage=" + flatMarkupPercentage
-				+ ", materialMarkupPercentage=" + materialMarkupPercentage
-				+ ", laborMarkupPercentage=" + laborMarkupPercentage + "]";
-	}
-
 }
