@@ -25,7 +25,8 @@ public class Product {
 	 * @param productMaterial
 	 * @param basePrice
 	 */
-	public Product(String productName, String productMaterial, BigDecimal basePrice) {
+	public Product(String productName, String productMaterial,
+			BigDecimal basePrice) {
 		this.productName = productName;
 		this.productMaterial = productMaterial;
 		this.basePrice = basePrice;

@@ -1,5 +1,6 @@
 package com.anh.nupack.utilities;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -12,6 +13,8 @@ public class ConstantUtil {
 
 	// The propertied file name is stored in the project source code
 	public final static String MARKUP_PROPERTIES_FILENAME = "services.properties";
+	public final static String USER_PROPERTIES_FILE_PATH = "user.path";
+	public final static String FILE_SEPARATOR = File.separator;
 
 	public final static String MARKUP_PERCENTAGE_START_STRING = "markup.percentage";
 	public final static String MARKUP_MATERIAL_TYPE_START_STRING = "markup.type";
@@ -36,10 +39,10 @@ public class ConstantUtil {
 	public final static String CURRENCY_LOCALE_COUNTRY_LANGUAGE = "price.currency.country.language";
 	public final static String CURRENCY_LOCALE_DEFAULT = "CAD";
 	public static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
-	
+
 	public static final String SPACE = " ";
-	
-	public static final String MONEY_NUMBER_FORMAT ="%,.2f";
-	
+
+	public static final String MONEY_NUMBER_FORMAT = "%,.2f";
+
 	public static final String CURRENCY_SIGNS = "[$€¥£]";
 }

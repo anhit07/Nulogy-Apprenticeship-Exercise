@@ -1,5 +1,6 @@
 package com.anh.nupack.utilities;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -7,8 +8,8 @@ import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * @author AnhNguyen. 
- * This class is used to get all properties from a properties file
+ * @author AnhNguyen. This class is used to get all properties from a properties
+ *         file
  */
 public class PropertiesUtil {
 
@@ -28,22 +29,34 @@ public class PropertiesUtil {
 	 */
 	public PropertiesUtil(String fileName) {
 
-		if (System.getProperty("basePath") != null) {
-			fileName = System.getProperty("basePath") + fileName;
-		}
-
 		try {
-			//InputStream input = new FileInputStream(filename);
-			InputStream input = this.getClass().getClassLoader().getResourceAsStream(fileName);
+			InputStream input;
+			if (System.getProperty(ConstantUtil.USER_PROPERTIES_FILE_PATH) != null) {
+
+				String userDirPath = System
+						.getProperty(ConstantUtil.USER_PROPERTIES_FILE_PATH);
+
+				if (!userDirPath.endsWith(ConstantUtil.FILE_SEPARATOR))
+					userDirPath = userDirPath + ConstantUtil.FILE_SEPARATOR;
+
+				fileName = userDirPath + fileName;
+				input = new FileInputStream(fileName);
+			} else {
+				input = this.getClass().getClassLoader()
+						.getResourceAsStream(fileName);
+			}
 			this.properties = new Properties();
 			this.properties.load(input);
 		} catch (NullPointerException | IOException ex) {
-			ex.printStackTrace();
+			// ex.printStackTrace();
+			System.out
+					.println("There is a problem when loading the properties file or the file not found");
 		}
 	}
 
 	/**
 	 * Extract all properties related to a same object
+	 * 
 	 * @param startString
 	 * @return a HashMap<String, String> which is the list of pair(key, value)
 	 *         in the properties file starts with the string "startString"
@@ -68,16 +81,16 @@ public class PropertiesUtil {
 			return null;
 		}
 	}
-	
-	
+
 	/**
 	 * Get the property value by property name/key
+	 * 
 	 * @param propertyName
 	 * @return
 	 */
-	public String getProperty(String propertyName){
+	public String getProperty(String propertyName) {
 		if (this.properties != null) {
-			return  this.properties.getProperty(propertyName);
+			return this.properties.getProperty(propertyName);
 		} else {
 			return null;
 		}

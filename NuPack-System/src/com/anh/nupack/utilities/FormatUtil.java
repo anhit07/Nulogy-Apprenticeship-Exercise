@@ -49,15 +49,15 @@ public final class FormatUtil {
 
 	/**
 	 * Check the string is currency format and return string of BigDecimal if
-	 * the string is valid. The valid string such as 323,234.12345 or $323,234.12345,
-	 * or €323,234.12345 or ¥323,234.12345 or £323,234.12345
+	 * the string is valid. The valid string such as 323,234.12345 or
+	 * $323,234.12345, or €323,234.12345 or ¥323,234.12345 or £323,234.12345
 	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String checkCurrenyAndReturnNumberStr(String str) {
 		Pattern p = Pattern.compile("^" + ConstantUtil.CURRENCY_SIGNS
-				+ "{0,1}(?:0|[1-9]\\d{0,2}(?:\\,\\d{3})*).\\d{0,5}$");
+				+ "{0,1}(?:0|[0-9]\\d{0,2}(?:\\,{0,1}\\d{3})*).{0,1}\\d{0,5}$");
 		Matcher m = p.matcher(str);
 		if (m.matches()) {
 			return str.replaceAll(ConstantUtil.CURRENCY_SIGNS, "").replaceAll(

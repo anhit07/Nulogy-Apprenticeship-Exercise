@@ -19,7 +19,8 @@ public class Markups extends PropertiesUtil {
 	// Percentage of a particular markup type(eg: flat markup percentage is 5%)
 	private HashMap<String, String> markupPercentage;
 
-	// HashMap of subtypes of material(subtypes of food, pharmaceutical, electronics)
+	// HashMap of subtypes of material(subtypes of food, pharmaceutical,
+	// electronics)
 	private HashMap<String, String> markupMaterialSubType;
 
 	/**
@@ -78,7 +79,8 @@ public class Markups extends PropertiesUtil {
 
 		while (it.hasNext()) {
 			Entry<String, String> pair = it.next();
-			String[] subMaterialTypes = pair.getValue().split(ConstantUtil.DELIMITER_COMMA);
+			String[] subMaterialTypes = pair.getValue().split(
+					ConstantUtil.DELIMITER_COMMA);
 
 			for (int i = 0; i < subMaterialTypes.length; i++) {
 				String subMaterialType = subMaterialTypes[i].trim();
