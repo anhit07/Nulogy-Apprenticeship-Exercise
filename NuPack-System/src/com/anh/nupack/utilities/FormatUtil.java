@@ -26,7 +26,9 @@ public final class FormatUtil {
 	public static BigDecimal toBigDecimal(String numberString) {
 		try {
 			BigDecimal converterNumber = new BigDecimal(numberString);
-			return converterNumber;
+			return converterNumber.setScale(
+					ConstantUtil.DEFAULT_BIGDECIMAL_SCALE,
+					ConstantUtil.DEFAULT_BIGDECIMAL_ROUNDING);
 		} catch (NullPointerException | NumberFormatException e) {
 			return null;
 		}
@@ -48,40 +50,6 @@ public final class FormatUtil {
 	}
 
 	/**
-	 * Check the string is currency format and return string of BigDecimal if
-	 * the string is valid. The valid string such as 323,234.12345 or
-	 * $323,234.12345, or €323,234.12345 or ¥323,234.12345 or £323,234.12345
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String checkCurrenyAndReturnNumberStr(String str) {
-		Pattern p = Pattern.compile("^" + ConstantUtil.CURRENCY_SIGNS
-				+ "{0,1}(?:0|[0-9]\\d{0,2}(?:\\,{0,1}\\d{3})*).{0,1}\\d{0,5}$");
-		Matcher m = p.matcher(str);
-		if (m.matches()) {
-			return str.replaceAll(ConstantUtil.CURRENCY_SIGNS, "").replaceAll(
-					ConstantUtil.DELIMITER_COMMA, "");
-		}
-		return null;
-	}
-
-	/**
-	 * Format a String to Double
-	 * 
-	 * @param numberString
-	 * @return a object of Double or null
-	 */
-	public static Double toDouble(String numberString) {
-		try {
-			Double converterNumber = new Double(numberString);
-			return converterNumber;
-		} catch (NullPointerException | NumberFormatException e) {
-			return null;
-		}
-	}
-
-	/**
 	 * Format a String to int
 	 * 
 	 * @param numberString
@@ -96,6 +64,12 @@ public final class FormatUtil {
 		}
 	}
 
+	/**
+	 * Validate a String is type of interger
+	 * 
+	 * @param string
+	 * @return true if string is interger otherwise return false
+	 */
 	public static boolean isInt(String s) {
 		try {
 			Integer.parseInt(s);
@@ -132,4 +106,26 @@ public final class FormatUtil {
 		}
 		return true;
 	}
+
+	/**
+	 * Check the string is currency format and return string of BigDecimal if
+	 * the string is valid. The valid string such as 323,234.12345 or
+	 * $323,234.12345, or €323,234.12345 or ¥323,234.12345 or £323,234.12345
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static BigDecimal checkCurrenyAndToBigDecimal(String str) {
+		Pattern p = Pattern.compile("^" + ConstantUtil.CURRENCY_SIGNS
+				+ "{0,1}(?:0|[0-9]\\d{0,2}(?:\\,{0,1}\\d{3})*).{0,1}\\d{0,5}$");
+		Matcher m = p.matcher(str);
+		if (m.matches()) {
+			str = str.replaceAll(ConstantUtil.CURRENCY_SIGNS, "").replaceAll(
+					ConstantUtil.DELIMITER_COMMA, "");
+			return FormatUtil.toBigDecimal(str);
+
+		}
+		return null;
+	}
+
 }

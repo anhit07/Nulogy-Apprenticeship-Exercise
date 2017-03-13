@@ -61,18 +61,15 @@ public class CurrencyUtil {
 		if (amount != null) {
 			String moneyString = amount.toString();
 			if (this.localeCurrency != null) {
-
 				amount = amount.setScale(
 						this.localeCurrency.getDefaultFractionDigits(),
 						ConstantUtil.DEFAULT_ROUNDING);
 				if (country != null) {
 					moneyString = localeCurrency.getSymbol(country)
-							+ ConstantUtil.SPACE
 							+ String.format(ConstantUtil.MONEY_NUMBER_FORMAT,
 									amount);
 				} else {
 					moneyString = localeCurrency.getSymbol(Locale.CANADA)
-							+ ConstantUtil.SPACE
 							+ String.format(ConstantUtil.MONEY_NUMBER_FORMAT,
 									amount);
 				}

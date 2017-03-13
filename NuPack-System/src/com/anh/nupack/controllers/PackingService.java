@@ -13,6 +13,10 @@ import com.anh.nupack.utilities.FormatUtil;
  *         price(including the base price and packing services) of one product
  * 
  */
+/**
+ * @author user
+ * 
+ */
 public class PackingService {
 
 	// The product is on the packing service
@@ -31,7 +35,6 @@ public class PackingService {
 	private CurrencyUtil currencyUtil;
 
 	public PackingService() {
-
 	}
 
 	/**
@@ -45,9 +48,7 @@ public class PackingService {
 	 * @param packingLaborNumber
 	 */
 	public PackingService(String productName, String productMaterial,
-			String basePriceStr, String packingLaborNumber) {
-
-		BigDecimal basePrice = FormatUtil.toBigDecimal(basePriceStr);
+			BigDecimal basePrice, String packingLaborNumber) {
 
 		if (!FormatUtil.isEmpty(productName)
 				&& FormatUtil.isNotNullAndZero(basePrice)) {
@@ -61,20 +62,17 @@ public class PackingService {
 			this.product = product;
 			this.markups = new Markups();
 			this.packingLaborNumber = FormatUtil.toInt(packingLaborNumber);
+			this.currencyUtil = new CurrencyUtil();
 		}
 	}
 
 	/**
 	 * Get material percentage base on the product material
 	 */
-	/**
-	 * 
-	 */
 	private void getMarkupMaterialPercentageByProduct() {
 
 		if (this.product != null
 				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
-
 			String productMaterial = this.product.getProductMaterial();
 
 			// Pharmaceutical
@@ -101,13 +99,14 @@ public class PackingService {
 						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_OTHERS);
 			}
 		}
+
 	}
 
 	/**
 	 * Calculate the final price of product after applying all markup
 	 * percentages on it and set in the field finalPrice of Product object
 	 */
-	public void calculateProductFinalPrice() {
+	public Product calculateProductFinalPrice() {
 
 		if (this.product != null
 				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
@@ -139,7 +138,9 @@ public class PackingService {
 							.divide(ConstantUtil.HUNDRED)));
 
 			this.product.setFinalPrice(finalPrice);
+			return this.product;
 		}
+		return null;
 	};
 
 	/*
@@ -151,7 +152,6 @@ public class PackingService {
 	 */
 	@Override
 	public String toString() {
-		currencyUtil = new CurrencyUtil();
 		String response = "The product has been proccessed calculation for packing service";
 		response = response + "\n Product name: " + product.getProductName()
 				+ "\n Product material: " + product.getProductMaterial()
@@ -160,6 +160,7 @@ public class PackingService {
 				+ "\n Number of packing labor: " + this.packingLaborNumber
 				+ "\n Final product price: "
 				+ currencyUtil.toCurrency(product.getFinalPrice());
+
 		return response;
 	}
 
@@ -175,48 +176,48 @@ public class PackingService {
 	 * @param packingLaborNumber
 	 * @return
 	 */
-	public String doPackingService(String productName, String productMaterial,
+	public Product doPackingService(String productName, String productMaterial,
 			String basePriceStr, String packingLaborNumber) {
-		String response = "";
+		StringBuilder response = new StringBuilder("");
 		boolean isValidInput = true;
+		BigDecimal basePrice = null;
 
 		if (FormatUtil.isEmpty(productName)) {
-			response = response + "Product name is empty";
+			response.append("Product name is empty");
 			isValidInput = false;
 		}
 
 		if (FormatUtil.isEmpty(productMaterial)) {
 			if (!isValidInput) {
-				response = response + "\n";
+				response.append("\n");
 			}
-			response = response + "Product material is empty";
+			response.append("Product material is empty");
 			isValidInput = false;
 		}
 
 		if (FormatUtil.isEmpty(basePriceStr)) {
 			if (!isValidInput) {
-				response = response + "\n";
+				response.append("\n");
 			}
-			response = response + "Base price of product is empty";
+			response.append("Base price of product is empty");
 			isValidInput = false;
 		}
 
 		if (FormatUtil.isEmpty(packingLaborNumber)) {
 			if (!isValidInput) {
-				response = response + "\n";
+				response.append("\n");
 			}
-			response = response + "Number of packing labor is empty";
+			response.append("Number of packing labor is empty");
 			isValidInput = false;
 		}
 
 		if (!FormatUtil.isEmpty(basePriceStr)) {
-			basePriceStr = FormatUtil
-					.checkCurrenyAndReturnNumberStr(basePriceStr);
-			if (FormatUtil.toBigDecimal(basePriceStr) == null) {
+			basePrice = FormatUtil.checkCurrenyAndToBigDecimal(basePriceStr);
+			if (!FormatUtil.isNotNullAndZero(basePrice)) {
 				if (!isValidInput) {
-					response = response + "\n";
+					response.append("\n");
 				}
-				response = response + "The base price of product is invalid";
+				response.append("The base price of product is invalid");
 				isValidInput = false;
 			}
 		}
@@ -224,21 +225,30 @@ public class PackingService {
 		if (!FormatUtil.isEmpty(packingLaborNumber)) {
 			if (!FormatUtil.isInt(packingLaborNumber)) {
 				if (!isValidInput) {
-					response = response + "\n";
+					response.append("\n");
 				}
-				response = response + "The number of packing labor is invalid";
+				response.append("The number of packing labor is invalid");
 				isValidInput = false;
 			}
 		}
 		if (isValidInput) {
 			PackingService packingService = new PackingService(productName,
-					productMaterial, basePriceStr, packingLaborNumber);
-			packingService.calculateProductFinalPrice();
-			response = packingService.toString();
+					productMaterial, basePrice, packingLaborNumber);
+			Product result  = packingService.calculateProductFinalPrice();
+			System.out.println(packingService.toString());
+			return result;
 		} else {
-			response = "Please check and enter again these following inforamtion:\n"
-					+ response;
+			// System.out.println(response.toString());
+			System.out
+					.println("Please check and enter again these following inforamtion:\n"
+							+ response.toString());
+			return null;
 		}
-		return response;
+		
 	}
+
+	public Product getProduct() {
+		return this.product;
+	}
+
 }

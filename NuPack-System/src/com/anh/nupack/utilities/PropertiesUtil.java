@@ -11,6 +11,10 @@ import java.util.Properties;
  * @author AnhNguyen. This class is used to get all properties from a properties
  *         file
  */
+/**
+ * @author user
+ * 
+ */
 public class PropertiesUtil {
 
 	private Properties properties;
@@ -45,12 +49,18 @@ public class PropertiesUtil {
 				input = this.getClass().getClassLoader()
 						.getResourceAsStream(fileName);
 			}
-			this.properties = new Properties();
-			this.properties.load(input);
+			if (input != null) {
+				this.properties = new Properties();
+				this.properties.load(input);
+			} else {
+				System.out
+						.println("There is a problem when loading the properties file or the file not found");
+			}
 		} catch (NullPointerException | IOException ex) {
 			// ex.printStackTrace();
 			System.out
 					.println("There is a problem when loading the properties file or the file not found");
+
 		}
 	}
 
@@ -73,7 +83,7 @@ public class PropertiesUtil {
 
 				// Select all properties of start with the startString
 				if (name.startsWith(startString) && !FormatUtil.isEmpty(value)) {
-					objectProperties.put(name, value);
+					objectProperties.put(name.trim(), value.trim());
 				}
 			}
 			return objectProperties;
@@ -90,9 +100,14 @@ public class PropertiesUtil {
 	 */
 	public String getProperty(String propertyName) {
 		if (this.properties != null) {
-			return this.properties.getProperty(propertyName);
+			return this.properties.getProperty(propertyName.trim());
 		} else {
 			return null;
 		}
 	}
+
+	public Properties getProperties() {
+		return properties;
+	}
+
 }

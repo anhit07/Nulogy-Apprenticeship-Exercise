@@ -89,4 +89,13 @@ public class Markups extends PropertiesUtil {
 
 		}
 	}
+
+	public HashMap<String, String> getMarkupPercentage() {
+		return markupPercentage;
+	}
+
+	public HashMap<String, String> getMarkupMaterialSubType() {
+		return markupMaterialSubType;
+	}
+	
 }

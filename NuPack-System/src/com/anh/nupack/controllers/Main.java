@@ -1,5 +1,6 @@
 package com.anh.nupack.controllers;
 
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -26,17 +27,20 @@ public class Main {
 				response = response + "(Number of people on packing job)";
 				invalid = true;
 			}
+			
+			if (args.length > 4) {
+				response = "So many arguments";
+				invalid = true;
+			}
 			if (invalid) {
 				System.out.println(response);
 				System.exit(0);
 			} else {
 				PackingService packing = new PackingService();
-				System.out.println(packing.doPackingService(args[0], args[1],
-						args[2], args[3]));
+				packing.doPackingService(args[0], args[1],args[2], args[3]);
 			}
 		} catch (RuntimeException ex) {
-			System.exit(0);
+			ex.printStackTrace();
 		}
 	}
-
 }

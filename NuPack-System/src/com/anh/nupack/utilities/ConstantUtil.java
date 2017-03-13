@@ -17,7 +17,7 @@ public class ConstantUtil {
 	public final static String FILE_SEPARATOR = File.separator;
 
 	public final static String MARKUP_PERCENTAGE_START_STRING = "markup.percentage";
-	public final static String MARKUP_MATERIAL_TYPE_START_STRING = "markup.type";
+	public final static String MARKUP_MATERIAL_TYPE_START_STRING = "markup.type.material";
 
 	public final static String MARKUP_PERCENTAGE_FLAT = "markup.percentage.flat";
 	public final static String MARKUP_PERCENTAGE_LABOR = "markup.percentage.labor";
@@ -27,9 +27,9 @@ public class ConstantUtil {
 	public final static String MARKUP_PERCENTAGE_MATERIAL_ELE = "markup.percentage.material.electronics";
 	public final static String MARKUP_PERCENTAGE_MATERIAL_OTHERS = "markup.percentage.material.others";
 
-	public final static String MARKUP_TYPE_PHAR = "markup.type.pharmaceutical";
-	public final static String MARKUP_TYPE_FOOD = "markup.type.food";
-	public final static String MARKUP_TYPE_ELE = "markup.type.electronics";
+	public final static String MARKUP_TYPE_PHAR = "markup.type.material.pharmaceutical";
+	public final static String MARKUP_TYPE_FOOD = "markup.type.material.food";
+	public final static String MARKUP_TYPE_ELE = "markup.type.material.electronics";
 	public final static String MARKUP_TYPE_OTHERS = "0";
 
 	public final static String DELIMITER_COMMA = ",";
@@ -38,7 +38,10 @@ public class ConstantUtil {
 	public final static String CURRENCY_LOCALE_COUNTRY = "price.currency.country";
 	public final static String CURRENCY_LOCALE_COUNTRY_LANGUAGE = "price.currency.country.language";
 	public final static String CURRENCY_LOCALE_DEFAULT = "CAD";
+
 	public static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
+	public static final int DEFAULT_BIGDECIMAL_ROUNDING = BigDecimal.ROUND_HALF_EVEN;
+	public static final int DEFAULT_BIGDECIMAL_SCALE = 2;
 
 	public static final String SPACE = " ";
 

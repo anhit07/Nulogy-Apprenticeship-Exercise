@@ -12,7 +12,6 @@ public class Product {
 
 	private String productMaterial;
 
-	// Required when input
 	private BigDecimal basePrice;
 
 	private BigDecimal finalPrice;
