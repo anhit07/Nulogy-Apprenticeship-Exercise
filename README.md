@@ -28,25 +28,27 @@ The achievement of the project is a calculation system for the final price of th
 - To run from command line:
 Change into the folder where the git clone command will create. Ex: $ cd NupackSystem
     - Then run with command: 
-		__Option 1__: $ NupackSystem> >java -jar Nupack-System.jar Arguments
-		The Arguments are following the order of productName ProductMaterial BasePrice NumberPeoplePackingJob: 
+	- __Option 1__: $ NupackSystem>java -jar Nupack-System.jar Arguments
+		
+        - The Arguments are following the order of productName ProductMaterial BasePrice NumberPeoplePackingJob: 
 		- __productName__: the product name
 		- __ProductMaterial__: the material of the product which is one of sub types of pharmaceutical, food, electronics or others
-			- __BasePrice__: the base price of the product
-			- __NumberPeoplePackingJob__: the number of people on the packing job of this product
+		- __BasePrice__: the base price of the product
+		- __NumberPeoplePackingJob__: the number of people on the packing job of this product
 
-		__Option 2__: 
+	- __Option 2__: 
 		If user wishes to change the Markup Percentages or the sub types of Product Material(belongs to the group pharmaceutical, food or electronics), 
 		the user can download and change in the file __services.properties__
 
 		To get the properties file: 
-			[https://github.com/anhit07/Nulogy-Apprenticeship-Exercise/blob/master/jar/services.properties]
+			
+		[https://github.com/anhit07/Nulogy-Apprenticeship-Exercise/blob/master/jar/services.properties]
 		
 		Then run with command specifying the System Property(user.path) is the 
 		user's directory path of properties file:
 		
-			$ NupackSystem> >java -Duser.path=dirPath -jar Nupack-System.jar Arguments
-			Ex: $ NupackSystem> >java -Duser.path=C:\Users\user\Java\resource\ -jar Nupack-System.jar Arguments
+			$ NupackSystem>java -Duser.path=dirPath -jar Nupack-System.jar Arguments
+			Ex: $ NupackSystem>java -Duser.path=C:\Users\user\Java\resource\ -jar Nupack-System.jar Arguments
 			
 ## Design 
 Please refer to this link:
