@@ -18,6 +18,8 @@ public class ConstantUtil {
 
 	public final static String MARKUP_PERCENTAGE_START_STRING = "markup.percentage";
 	public final static String MARKUP_MATERIAL_TYPE_START_STRING = "markup.type.material";
+	public final static String MARKUP_MATERIAL_TYPE_SUB_STRING = ".type.";
+	public final static String MARKUP_MATERIAL_PERCENTAGE_SUB_STRING = ".percentage.";
 
 	public final static String MARKUP_PERCENTAGE_FLAT = "markup.percentage.flat";
 	public final static String MARKUP_PERCENTAGE_LABOR = "markup.percentage.labor";

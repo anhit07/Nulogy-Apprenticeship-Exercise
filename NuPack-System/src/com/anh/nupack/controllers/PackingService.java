@@ -75,25 +75,11 @@ public class PackingService {
 				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
 			String productMaterial = this.product.getProductMaterial();
 
-			// Pharmaceutical
-			if (this.markups.isUnderMaterialType(productMaterial,
-					ConstantUtil.MARKUP_TYPE_PHAR)) {
+			//Get material percentage base on product material
+			if (this.markups
+					.getMarkupPercetageByProductMaterial(productMaterial) != null) {
 				this.markupMaterialPercent = this.markups
-						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_PHAR);
-
-				// Food
-			} else if (this.markups.isUnderMaterialType(productMaterial,
-					ConstantUtil.MARKUP_TYPE_FOOD)) {
-				this.markupMaterialPercent = this.markups
-						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_FOOD);
-
-				// Electronic
-			} else if (this.markups.isUnderMaterialType(productMaterial,
-					ConstantUtil.MARKUP_TYPE_ELE)) {
-				this.markupMaterialPercent = this.markups
-						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_ELE);
-
-				// Others
+						.getMarkupPercetageByProductMaterial(productMaterial);
 			} else {
 				this.markupMaterialPercent = this.markups
 						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_OTHERS);
@@ -107,7 +93,6 @@ public class PackingService {
 	 * percentages on it and set in the field finalPrice of Product object
 	 */
 	public Product calculateProductFinalPrice() {
-
 		if (this.product != null
 				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
 
@@ -234,17 +219,16 @@ public class PackingService {
 		if (isValidInput) {
 			PackingService packingService = new PackingService(productName,
 					productMaterial, basePrice, packingLaborNumber);
-			Product result  = packingService.calculateProductFinalPrice();
+			Product result = packingService.calculateProductFinalPrice();
 			System.out.println(packingService.toString());
 			return result;
 		} else {
-			// System.out.println(response.toString());
 			System.out
 					.println("Please check and enter again these following inforamtion:\n"
 							+ response.toString());
 			return null;
 		}
-		
+
 	}
 
 	public Product getProduct() {

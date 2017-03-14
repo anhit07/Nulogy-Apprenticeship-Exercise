@@ -29,7 +29,8 @@ public class Main {
 			}
 			
 			if (args.length > 4) {
-				response = "So many arguments";
+				response = "So many arguments\nPlease enter following information:\n";
+				response = response + "(Product name, product material, product base price, and number of people on packing job)";
 				invalid = true;
 			}
 			if (invalid) {

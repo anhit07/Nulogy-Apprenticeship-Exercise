@@ -31,14 +31,4 @@ public class MarkupTest {
 						ConstantUtil.DEFAULT_BIGDECIMAL_ROUNDING));
 		assertNull(markup.getMarkupPercetage("markup.percentage.wrong"));
 	}
-
-	@Test
-	public void testIsUnderMaterialType() {
-		assertTrue(markup.isUnderMaterialType("drugs",
-				"markup.type.material.pharmaceutical"));
-		assertTrue(markup.isUnderMaterialType("food",
-				"markup.type.material.food"));
-		assertFalse(markup.isUnderMaterialType("foods",
-				"markup.type.material.food"));
-	}
 }
