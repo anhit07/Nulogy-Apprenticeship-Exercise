@@ -25,9 +25,6 @@ public class PackingService {
 	// The number of labor on the packing job for this product
 	private int packingLaborNumber;
 
-	// The material markup percentage base on the this product material
-	private BigDecimal markupMaterialPercent;
-
 	// List of all markups related to the service
 	private Markups markups;
 
@@ -48,44 +45,35 @@ public class PackingService {
 	 * @param packingLaborNumber
 	 */
 	public PackingService(String productName, String productMaterial,
-			BigDecimal basePrice, String packingLaborNumber) {
+			BigDecimal basePrice, int packingLaborNumber) {
 
-		if (!FormatUtil.isEmpty(productName)
-				&& FormatUtil.isNotNullAndZero(basePrice)) {
+		if (FormatUtil.isEmpty(productMaterial))
+			productMaterial = "";
 
-			if (FormatUtil.isEmpty(productMaterial))
-				productMaterial = "";
+		Product product = new Product(productName, productMaterial, basePrice);
 
-			Product product = new Product(productName, productMaterial,
-					basePrice);
-
-			this.product = product;
-			this.markups = new Markups();
-			this.packingLaborNumber = FormatUtil.toInt(packingLaborNumber);
-			this.currencyUtil = new CurrencyUtil();
-		}
+		this.product = product;
+		this.markups = new Markups();
+		this.packingLaborNumber = packingLaborNumber;
+		this.currencyUtil = new CurrencyUtil();
 	}
 
 	/**
 	 * Get material percentage base on the product material
 	 */
-	private void getMarkupMaterialPercentageByProduct() {
+	private BigDecimal getMarkupMaterialPercentageByProduct() {
 
-		if (this.product != null
-				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
-			String productMaterial = this.product.getProductMaterial();
-
-			//Get material percentage base on product material
-			if (this.markups
-					.getMarkupPercetageByProductMaterial(productMaterial) != null) {
-				this.markupMaterialPercent = this.markups
-						.getMarkupPercetageByProductMaterial(productMaterial);
-			} else {
-				this.markupMaterialPercent = this.markups
-						.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_OTHERS);
-			}
+		String productMaterial = this.product.getProductMaterial();
+		BigDecimal materialPercentage = null;
+		// Get material percentage base on product material
+		if (this.markups.getMarkupPercetageByProductMaterial(productMaterial) != null) {
+			materialPercentage = this.markups
+					.getMarkupPercetageByProductMaterial(productMaterial);
+		} else {
+			materialPercentage = this.markups
+					.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_MATERIAL_OTHERS);
 		}
-
+		return materialPercentage;
 	}
 
 	/**
@@ -93,39 +81,62 @@ public class PackingService {
 	 * percentages on it and set in the field finalPrice of Product object
 	 */
 	public Product calculateProductFinalPrice() {
-		if (this.product != null
-				&& FormatUtil.isNotNullAndZero(this.product.getBasePrice())) {
 
-			BigDecimal basePrice = this.product.getBasePrice();
+		BigDecimal basePrice = this.product.getBasePrice();
 
-			BigDecimal flatMarkup = this.markups
-					.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_FLAT);
+		BigDecimal flatMarkup = this.markups
+				.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_FLAT);
+		BigDecimal laborMarkup = this.markups
+				.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_LABOR);
 
-			BigDecimal laborMarkup = this.markups
-					.getMarkupPercetage(ConstantUtil.MARKUP_PERCENTAGE_LABOR);
+		BigDecimal materialMarkup = getMarkupMaterialPercentageByProduct();
 
+		boolean invalid = false;
+		String response = "";
+
+		if (flatMarkup == null) {
+			invalid = true;
+			response = "The flat markup in the properties file is invalid or does not exist";
+		}
+
+		if (laborMarkup == null) {
+			invalid = true;
+			if (!FormatUtil.isEmpty(response))
+				response = response + "\n";
+			response = response
+					+ "The labor markup in the properties file is invalid or does not exist";
+		}
+
+		if (materialMarkup == null) {
+			invalid = true;
+			if (!FormatUtil.isEmpty(response))
+				response = response + "\n";
+			response = response
+					+ "The material markup in the properties file is invalid or does not exist";
+		}
+
+		if (!invalid) {
 			BigDecimal totalLaborMarkup = laborMarkup.multiply(new BigDecimal(
 					this.packingLaborNumber));
-
-			getMarkupMaterialPercentageByProduct();
+			BigDecimal materialLaborMarkup = materialMarkup
+					.add(totalLaborMarkup);
 
 			// The price after applying the flat markup
 			BigDecimal priceAfterFlatMarkup = basePrice.add((basePrice
 					.multiply(flatMarkup).divide(ConstantUtil.HUNDRED)));
 
-			BigDecimal materialLaborMarkup = this.markupMaterialPercent
-					.add(totalLaborMarkup);
-
-			// The final price after applying the material and labor markup on
-			// the price of base price plus flat markup
+			// The final price after applying the material and labor markup
+			// on the price of base price plus flat markup
 			BigDecimal finalPrice = priceAfterFlatMarkup
 					.add((priceAfterFlatMarkup.multiply(materialLaborMarkup)
 							.divide(ConstantUtil.HUNDRED)));
 
 			this.product.setFinalPrice(finalPrice);
 			return this.product;
+		} else {
+			System.out.println(response);
+			return null;
 		}
-		return null;
 	};
 
 	/*
@@ -218,9 +229,12 @@ public class PackingService {
 		}
 		if (isValidInput) {
 			PackingService packingService = new PackingService(productName,
-					productMaterial, basePrice, packingLaborNumber);
+					productMaterial, basePrice,
+					FormatUtil.toInt(packingLaborNumber));
 			Product result = packingService.calculateProductFinalPrice();
-			System.out.println(packingService.toString());
+			if (result != null) {
+				System.out.println(packingService.toString());
+			}
 			return result;
 		} else {
 			System.out

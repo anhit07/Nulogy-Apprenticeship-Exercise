@@ -3,9 +3,11 @@ package com.anh.nupack.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
 import java.util.HashMap;
-import org.junit.Before;
+
 import org.junit.Test;
+
 import com.anh.nupack.utilities.ConstantUtil;
 import com.anh.nupack.utilities.PropertiesUtil;
 
@@ -16,15 +18,12 @@ public class PropertiesUtilTest {
 	private PropertiesUtil pro3 = new PropertiesUtil(
 			ConstantUtil.MARKUP_PROPERTIES_FILENAME);
 
-	@Before
-	public void init() {
-
-	}
-
 	@Test
 	public void testPropertiesUtil() {
-		assertNull("Constructor PropertiesUtil", pro1.getProperties());
-		assertNull("Constructor PropertiesUtil", pro2.getProperties());
+		assertNull("Constructor PropertiesUtil return null",
+				pro1.getProperties());
+		assertNull("Constructor PropertiesUtil return null",
+				pro2.getProperties());
 		assertNotNull("Constructor PropertiesUtil", pro3.getProperties());
 	}
 
@@ -37,7 +36,8 @@ public class PropertiesUtilTest {
 
 		HashMap<String, String> map3 = pro3.getProperties("markup.type");
 		assertEquals(map3.size(), 5);
-		assertEquals(map3.get("markup.type.material.food"), "food,vegetables,fruit");
+		assertEquals(map3.get("markup.type.material.food"),
+				"food,vegetables,fruit");
 
 	}
 
@@ -47,7 +47,6 @@ public class PropertiesUtilTest {
 		assertNull(pro1.getProperty("markup.type.flat"));
 		assertNull(pro2.getProperty("markup.type.flat"));
 
-		assertEquals(pro3.getProperty("markup.type.flat"), "flat");
 		assertEquals(pro3.getProperty("price.currency.country"), "ca");
 		assertNull(pro3.getProperty("markup.type"));
 

@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * @author AnhNguyen. This class is used to get all properties from a properties
- *         file
+ *         file (services.properties)
  */
 /**
  * @author user
@@ -22,11 +22,11 @@ public class PropertiesUtil {
 	/**
 	 * @param filename
 	 *            Class constructor specifying the filename of the properties
-	 *            file loaded. It will load all propeties string to the field
-	 *            Properties.
+	 *            file will be loaded. It will load all pairs of
+	 *            property(key,value) string to the field Properties.
 	 * 
-	 *            If user doesnt specify the System property - basePath, the
-	 *            file name in the jar folder will be loaded
+	 *            If user does not specify the System property - user.path, the
+	 *            file name in the embedded resource folder will be loaded
 	 * 
 	 *            If user specify the System property - basePath, the file name
 	 *            in the folder of base path will be loaded
@@ -49,6 +49,8 @@ public class PropertiesUtil {
 				input = this.getClass().getClassLoader()
 						.getResourceAsStream(fileName);
 			}
+
+			// If the file cannot be loaded
 			if (input != null) {
 				this.properties = new Properties();
 				this.properties.load(input);
@@ -65,7 +67,7 @@ public class PropertiesUtil {
 	}
 
 	/**
-	 * Extract all properties related to a same object
+	 * Extract all properties with the key starts with "startString"
 	 * 
 	 * @param startString
 	 * @return a HashMap<String, String> which is the list of pair(key, value)
@@ -93,7 +95,7 @@ public class PropertiesUtil {
 	}
 
 	/**
-	 * Get the property value by property name/key
+	 * Get the property value by property key
 	 * 
 	 * @param propertyName
 	 * @return
