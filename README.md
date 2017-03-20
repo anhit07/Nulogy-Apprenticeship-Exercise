@@ -6,7 +6,7 @@ Please refer to this [link](https://docs.google.com/document/d/1Fi_WrkQV6xD3zv8Q
 
 ## Achievement
 The achievement of the project is a calculation system for the final price of the products need to be repackaged with following features:
- - Validation for the input of a product(product name, base price, product material), packing service for this product (the number of people on packing job).
+ - Validation for the input of a product (product name, base price, product material), packing service for this product (the number of people on packing job).
  - Calculation for final price base on the entered information and the predefined percentages of flat markup, material markup and labor markup.
  - Print out all information of repackaged product (product name, product material, product base price, the number of people on packing job and calculated final product price).
  - The base price and final price will be output with the format of the local currency which user defines in "service.properties"
@@ -50,6 +50,6 @@ Please refer to and download from this [link](https://github.com/anhit07/Nulogy-
 - __Maven__ - [Dependency Management](https://maven.apache.org/)
 - __JUnit-4.1__ - [Unit testing framework](http://junit.org/junit4/)
 
-### Running and Testing from the Eclipse
+### Running and Testing on the Eclipse
 - Please download __[source code](https://github.com/anhit07/Nulogy-Apprenticeship-Exercise/tree/master/NuPack-System)__ to the Eclipse Workspace
 - Then import the source code to Eclipse with Maven project type (File-> Import-> Maven-> Existing Maven Projects) and browse to folder of source code
